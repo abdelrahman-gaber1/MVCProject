@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCProject.BLL.Interfaces;
+using MVCProject.BLL.Repositories;
 using MVCProject.DAL.Data;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,8 @@ namespace MVCProject.PL
             //AddDbContext have overload take parameter on type action (delegate)
             //when i create DbContext i send connection string to option in constructor of appDbcontext
 
+            //  if any one need IDepartmentRepository CLR will create DepartmentRepository
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
