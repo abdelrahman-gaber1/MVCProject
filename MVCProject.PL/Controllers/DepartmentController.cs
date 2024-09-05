@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCProject.BLL.Interfaces;
 using MVCProject.BLL.Repositories;
+using MVCProject.DAL.Data;
 
 namespace MVCProject.PL.Controllers
 {
@@ -16,8 +18,10 @@ namespace MVCProject.PL.Controllers
         // Department controller title cobbled on Department Repository
         public DepartmentController(IDepartmentRepository departmentRepository)
         {
+            //_departmentRepository = new DepartmentRepository(new AppDbContext(new DbContextOptions()));
             _departmentRepository = departmentRepository;
         }
+        //BaseURL/Department/Index
         public IActionResult Index()
         {
             //Get All
