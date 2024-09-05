@@ -9,12 +9,25 @@ using System.Threading.Tasks;
 
 namespace MVCProject.DAL.Data
 {
-    internal class AppDbContext :DbContext
+    public class AppDbContext :DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //Create object from AppDbContext depend on Create object from DbContextOptions 
+        // ask CLR for creating object from DbContextOptions
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("server=. ; Database, Trusted_Connection=True");
+            //when you send option we need to send our connection string
+            //we will do it using addDbContext in startup
+            
         }
+
+        // we didn't need to override onConfiguring because DbContextOptions will execute it
+        // if we didn't override it but when execute it we need to send our connection string
+        // we went to execute parent on configuring and use our connection string
+        //note we override it to use our connection string
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("server=. ; Database, Trusted_Connection=True");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new DepartmentConfigration());
