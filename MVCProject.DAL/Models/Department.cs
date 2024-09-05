@@ -11,7 +11,7 @@ namespace MVCProject.DAL.Models
     {
         public int Id { get; set; } // PK Identity
 
-        //error massage come from backend and send to view
+        //error massage come from back end and send to view
         [Required(ErrorMessage ="Code is Required")]
         public string Code { get; set; } // .Net 5 Allow Null
 
