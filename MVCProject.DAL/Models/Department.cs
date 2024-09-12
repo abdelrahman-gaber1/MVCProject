@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace MVCProject.DAL.Models
 
         [Required(ErrorMessage ="Name is Required")]
         public string Name { get; set; }
+        //when you use display name for in view he will write DateOfCertion(property must look like this) 
+        //to add space or other things we use 
+        //this data annotation must write in view model
+        //because this clas is poco class we can't write any thing other property
+        [Display(Name ="Date Of Certion")]
         public DateTime DateOfCertion { get; set; }
     }
 }
