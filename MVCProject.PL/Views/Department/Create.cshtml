@@ -1,4 +1,4 @@
-﻿@* i will create depatment *@
+﻿@* i will create department *@
 @model Department
 @{
     ViewData["Title"] = "Create";
@@ -7,35 +7,35 @@
 <h1>Create New Department</h1>
 <br />
 <br />
-@* this action will excute when click submet *@
+@* this action will execute when click submit *@
 @* default method is get *@
 @* we change it to post because we add data to db *@
-<form asp-action="Create" method="post">
+<form asp-action="Create">
 
     <div>
-    <label class="col-form-label" for="Code">Code</label>
+        <label class="col-form-label" asp-for="Code"></label>
         @* دك براماتر اسمه كود عارفين ان اول مكان هيدور عليه فيه هوا الفورم هوا بيعرف انه هياخد الكود من الانبوت ده عن طريق ال  *@
-        @* name of input that have the same name of paramater *@
-        <input type="text" name="Code" id="Code" class="form-control"/>
+        @* name of input that have the same name of parameter *@
+        <input type="text" asp-for="Code" class="form-control" />
         @* alert massage go to model and see error massage for code *@
-        @* front take massge error that add in back and display it *@
+        @* front take massage error that add in back and display it *@
         @* client side validation to reduce number of request to display  *@
-        @* error without send requset to back and check validation  *@
+        @* error without send request to back and check validation  *@
         <span asp-validation-for="Code" class="text-danger"></span>
     </div>
 
     <div>
-        <label class="col-form-label" for="Name">Name</label>
-        <input type="text" name="Name" id="Name" class="form-control"/>
+        <label class="col-form-label" asp-for="Name"></label>
+        <input type="text" asp-for="Name" class="form-control"/>
         <span asp-validation-for="Name" class="text-danger"></span>
     </div> 
  
     <div>
-        <label class="col-form-label" for="DateOfCertion">DateOfCertion</label>
-        <input name="DateOfCertion" id="DateOfCertion" class="form-control" />
+        <label class="col-form-label" asp-for="DateOfCreation"></label>
+        <input asp-for="DateOfCreation" class="form-control" />
     </div>
-    @* when you click this bottom he will excute action in form *@
+    @* when you click this bottom he will execute action in form *@
     <input type="submit" value="Create" class="btn btn-primary mt-5"/>
-    <a asp-action="Index" class="btn btn-light">Back To List</a>
+    <a asp-action="Index" class="btn btn-light mt-5">Back To List</a>
 
 </form>
