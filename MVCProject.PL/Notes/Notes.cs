@@ -67,14 +67,23 @@
         #region Create view 
 
         //first you will create for action (index) view 
-        //sconed you have option to use layout default or browse 
-        //he will scafolding to create html view
+        //second you have option to use layout default or browse 
+        //he will scaffolding to create HTML view
         //after creating view the first thing you must to do is detect model that will model despite what we will use it (get - add - delete0
         //binding what type of data will view use 
         //type of model is the same type of what action that will call view return 
 
         #endregion
 
+        //First Step DAl =>Model
+        //Second Class Configuration
+        //Third Add DBSet
+        //Fourth Apply Configuration
+        //Fifth Add Migration
+        //sixth BLL
+        //Seventh Repository for each Model 5 Action That will call database
+        //Each Repo Have interface
+        //Eighth Create Class Employee
 
         #endregion
 

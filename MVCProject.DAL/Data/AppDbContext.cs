@@ -31,8 +31,10 @@ namespace MVCProject.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new DepartmentConfigration());
+            modelBuilder.ApplyConfiguration(new EmployeeConfigration());
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> Department { get; set; }
+        public DbSet<Employee> Employee { get; set; }
     }
 }
