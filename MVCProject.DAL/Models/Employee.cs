@@ -23,9 +23,8 @@ namespace MVCProject.DAL.Models
         [EnumMember(Value = "PartTime")]
         PartTime = 2,
     }
-    public class Employee
+    public class Employee : ModelBase
     {
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name Is Required!")]
         [MaxLength(50, ErrorMessage = "Max Length For Name Is 50")]
@@ -43,12 +42,12 @@ namespace MVCProject.DAL.Models
         public bool IsActive {get; set;}
         
         [EmailAddress]
-        public string EmailAddress { get; set; }
+        public string Email { get; set; }
         [Phone]
         [Display(Name="Phone Number")]
         public string PhoneNumber { get; set; }
         [Display(Name ="Hire Date")]
-        public string HireDate { get; set;}
+        public DateTime HireDate { get; set;}
 
         //Soft Delete : change statue to delete but still in data base
         //Hard Delete : Deleted form Data Base

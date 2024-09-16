@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace MVCProject.BLL.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
+        // here you can add method that belong to employee only
+        // like detect employee by address
+        IQueryable<Employee> GetEmployeeByAddress(string address);
 
-        IEnumerable<Employee> GetAll();
-        Employee GetById(int id);
-
-        int Add(Employee department);
-
-        int Update(Employee department);
-
-        int Delete(Employee department);
     }
 }

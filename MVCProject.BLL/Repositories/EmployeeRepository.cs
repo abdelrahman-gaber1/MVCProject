@@ -10,39 +10,19 @@ using System.Threading.Tasks;
 
 namespace MVCProject.BLL.Repositories
 {
-    internal class EmployeeRepository : IEmployeeRepository
+    // he will take five action form generic repository and reminder from IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee> , IEmployeeRepository
     {
-        private readonly AppDbContext _DbContext; 
-        public EmployeeRepository(AppDbContext dbContext) 
+        //private readonly AppDbContext _DbContext; 
+        //Dependency Injection move from Generic repository to employee repository
+        public EmployeeRepository(AppDbContext dbContext) : base(dbContext)
         {
-            _DbContext = dbContext;
-        }
-        public int Add(Employee employee)
-        {
-            _DbContext.Employee.Add(employee);
-            return _DbContext.SaveChanges(); 
+            //_DbContext = dbContext;
         }
 
-        public int Delete(Employee employee)
+        public IQueryable<Employee> GetEmployeeByAddress(string address)
         {
-            _DbContext.Employee.Remove(employee); 
-            return _DbContext.SaveChanges();
-        }
-
-        public IEnumerable<Employee> GetAll()
-        {
-            return _DbContext.Employee.AsNoTracking().ToList();
-        }
-
-        public Employee GetById(int id)
-        {
-            return _DbContext.Employee.Find(id);
-        }
-
-        public int Update(Employee employee)
-        {
-            _DbContext.Employee.Update(employee);
-            return _DbContext.SaveChanges();
+            return _DbContext.Employee.Where(E=>E.Address.ToLower().Contains(address.ToLower()));
         }
     }
 }
