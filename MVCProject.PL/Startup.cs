@@ -64,6 +64,9 @@ namespace MVCProject.PL
 
             //  if any one need IDepartmentRepository CLR will create DepartmentRepository
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //register of service of repository always scope 
+            //because if request have more than one operation he will create one object
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

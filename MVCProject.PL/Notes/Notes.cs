@@ -1,7 +1,25 @@
-﻿namespace MVCProject.PL.Notes
+﻿using Microsoft.AspNetCore.Server.HttpSys;
+
+namespace MVCProject.PL.Notes
 {
     public class Notes
     {
+
+        //1  Step DAl =>Model
+        //2  Class Configuration
+        //3  Add DBSet
+        //4  Apply Configuration
+        //5  Add Migration
+        //6  BLL
+        //7  Repository for each Model 5 Action That will call database
+        //8  Each Repo Have interface
+        //9  Create Class Employee
+        //10 Create Generic Interface if need 
+        //11 Create Generic Class for department and employee
+        //12 Create Controller Employee 
+        //13 Create view for each action in controller
+        //14 services for this Model
+
         #region MVC03
         // if you install package in DAl and you want to Pl see that you must build the project
         //First we must divide it to services 
@@ -61,7 +79,6 @@
 
         #endregion
 
-
         #region MVC05
 
         #region Create view 
@@ -75,18 +92,51 @@
 
         #endregion
 
-        //First Step DAl =>Model
-        //Second Class Configuration
-        //Third Add DBSet
-        //Fourth Apply Configuration
-        //Fifth Add Migration
-        //sixth BLL
-        //Seventh Repository for each Model 5 Action That will call database
-        //Each Repo Have interface
-        //Eighth Create Class Employee
-
         #endregion
 
+        #region MVC06
+        //    20      +      55     +    30 +     18   +   45   = 170
+        //    10    +     28    +   13    =   155
+        #region Generic Repository
+        // if you see the code in interface department repository and interface employee repository they are the same 
+        // the only deferent is the model  (domain model) so we didn't need to repeat code 
+        // we will make interface generic repository of T 
+        // we need interface for generic repository before generic repository
+        // open for extension closed for modification 
 
+        // if you look to implementation of method in department repository and employee repository
+        // you will find that they are the same we don't need to repeat code so
+        // so we will make Generic repository class have this method and each of them inherit from that
+        #endregion
+
+        #region ClentSideValidation
+        //Client side validation before submission he will show the validation
+        //so he didn't send request to server that we don't need
+        // we will do it in view that have form
+        //first we need jQuery validation library
+        //we need to connect this library with view
+        //we add it at the end of the view not beginning
+        //note if you add this library in create view this library will not be in the end of the view
+        //because the default layout contain more code after the form
+        //and library of jQury validation depend on jQury so it must became after it
+        //so i want when he render create view he create all things dispute this link 
+        //i want to render it in another place using Section to add links in it
+        //Section have name and we will render it in RenderSectionAsync in layout
+        //@IgnoreSection if you want to ignore specific section
+        // in layout one randerBody one or more renderSection
+        #endregion
+
+        #region PartialView
+        // if we look at create view and edit view we found they are the same
+        // if we look at Details view and delete view we found they are the same
+        // we need to add repeated code in one place =>Partial view 
+        //partial view contain repeated code
+        //there is three button in index employee and index department identical
+        //we will add it partial view and render it in each file you want
+        //we will add this partial view in shared folder because it contain code of two model
+        //the name of partial view is any thingPartial
+        #endregion
+
+        #endregion
     }
 }
