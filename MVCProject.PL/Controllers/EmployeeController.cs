@@ -21,7 +21,10 @@ namespace MVCProject.PL.Controllers
 
         public IActionResult Index()
         {
+
             var employees = _employeeRepository.GetAll();
+            ViewData["Message"] = "Hello ViewData"; //Dictionary
+            ViewBag.message = "Hello ViewBag";     //Dynamic
             return View(employees);
             
         }
@@ -39,8 +42,13 @@ namespace MVCProject.PL.Controllers
                 var result = _employeeRepository.Add(employee);
                 if (result > 0)
                 {
-                    return RedirectToAction("Index");
+                    TempData["Message"] = "Employee Created Succefully";
                 }
+                else
+                {
+                    TempData["Message"] = "An Error Occurred";
+                }
+                    return RedirectToAction("Index");
             }
             return View(employee);
         }

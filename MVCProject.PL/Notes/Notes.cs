@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Buffers.Text;
+using System.Security.Cryptography.Xml;
 
 namespace MVCProject.PL.Notes
 {
@@ -95,8 +98,7 @@ namespace MVCProject.PL.Notes
         #endregion
 
         #region MVC06
-        //    20      +      55     +    30 +     18   +   45   = 170
-        //    10    +     28    +   13    =   155
+
         #region Generic Repository
         // if you see the code in interface department repository and interface employee repository they are the same 
         // the only deferent is the model  (domain model) so we didn't need to repeat code 
@@ -137,6 +139,59 @@ namespace MVCProject.PL.Notes
         //the name of partial view is any thingPartial
         #endregion
 
+        #region ImportantComperions(Razer Pages)
+        //1.View : HTML Page that action return(response)
+        //2.Partial View : part of view that repeat in more than one view added in partial view and render it in any view
+        //3._Layout View : more than one view have the same structure same(head - footer - navbar )
+        //4._ViewImports : contain all imports that i want to didn't repeat in each view
+        //5._ViewStart : any code on it added on the start of each view
+        //6.Section : if i have part of code i didn't wont to render it in render body
+        //view render in render body and section render in render section in any place
         #endregion
+
+        #region ViewData Vs ViewBag
+        //Binding : Data Send From Action to View 
+        //action take data of model from =>  1.Form(input with the same name) 2.Segment 3.Query String
+        //Action Have HTTP Get Always data send  form action to View 
+        //Action Have HTTP Post Always data send form View to action(Model)
+        //if i want to send extra information to view (extra binding) in addtion to the model i already send
+        //i can't send two model using helper method
+        //each view have dictionary i access it using view data or view bag
+        //Binding through view's Dictionary : transfer Data from Action to View
+        //ViewData Vs ViewBag property that allow to access dictionary of view
+        //use this dictionary to send any data
+        //you set infromation that you want to send in action
+        //dictionary key(must be string) + value pair you access this informatin using key in view
+        //ViewData Vs ViewBag inherited form controller
+        //data send from action to view in one way (ذهاب بلا عوده)
+        //ViewData Vs ViewBag use the same dictionary
+        #endregion
+
+        #region ViewData Vs ViewBag
+
+        //1.ViewData
+        //is a Dicitonary Object(Introduced in ASP.Net Framework 3.5 )
+        //it helps Us to Transfer Data From Controller[Action] To Its View Or From View To View[Layout]
+        //2.ViewBag
+        //is a Dynamic property(Introduced in ASP.Net Framework 4.0 Based On Dynamic Keyword)
+        //it helps Us to Transfer Data From Controller[Action] To Its View Or From View To View[Layout]
+
+
+        #endregion
+
+        #region TempData
+        //TempData : Send data from action(request) to action (request) 
+        //TempData : has his owen Dictionary
+        #endregion
+
+        #endregion
+
+
+        #region MVC07
+
+        //    20      +      55     +    30 +     18   +   45   = 170
+
+        #endregion
+
     }
 }
