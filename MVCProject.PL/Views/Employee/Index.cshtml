@@ -1,4 +1,27 @@
-﻿@model IEnumerable<Employee>;
+﻿ @model IEnumerable<Employee>;
+
+@{
+    ViewData["Massage"] = "Index";
+    //you must make type casting with view data
+    string viewDataMessage = ViewData["Message"] as string;
+    //you don't need make type casting with view bag
+    string viewBagMessage = ViewBag.message;
+    //performance of view data is better than view bag and type safty
+    //if you don't know type of data use view bag
+}
+<div class="alert alert-warning">
+    @ViewData["message"];
+</div>
+
+<div class="alert alert-success">
+    @ViewBag.message;
+</div>
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div class="alert alert-primary">
+        @TempData["Message"];
+    </div>
+}
 
 <h1>All Employee</h1>
 <br />
