@@ -15,7 +15,7 @@ namespace MVCProject.PL.Notes
         //5  Add Migration
         //6  BLL
         //7  Repository for each Model 5 Action That will call database
-        //8  Each Repo Have interface
+        //8  Each Repository Have interface
         //9  Create Class Employee
         //10 Create Generic Interface if need 
         //11 Create Generic Class for department and employee
@@ -154,14 +154,14 @@ namespace MVCProject.PL.Notes
         //action take data of model from =>  1.Form(input with the same name) 2.Segment 3.Query String
         //Action Have HTTP Get Always data send  form action to View 
         //Action Have HTTP Post Always data send form View to action(Model)
-        //if i want to send extra information to view (extra binding) in addtion to the model i already send
+        //if i want to send extra information to view (extra binding) in addition to the model i already send
         //i can't send two model using helper method
         //each view have dictionary i access it using view data or view bag
         //Binding through view's Dictionary : transfer Data from Action to View
         //ViewData Vs ViewBag property that allow to access dictionary of view
         //use this dictionary to send any data
-        //you set infromation that you want to send in action
-        //dictionary key(must be string) + value pair you access this informatin using key in view
+        //you set information that you want to send in action
+        //dictionary key(must be string) + value pair you access this information using key in view
         //ViewData Vs ViewBag inherited form controller
         //data send from action to view in one way (ذهاب بلا عوده)
         //ViewData Vs ViewBag use the same dictionary
@@ -170,7 +170,7 @@ namespace MVCProject.PL.Notes
         #region ViewData Vs ViewBag
 
         //1.ViewData
-        //is a Dicitonary Object(Introduced in ASP.Net Framework 3.5 )
+        //is a Dictionary Object(Introduced in ASP.Net Framework 3.5 )
         //it helps Us to Transfer Data From Controller[Action] To Its View Or From View To View[Layout]
         //2.ViewBag
         //is a Dynamic property(Introduced in ASP.Net Framework 4.0 Based On Dynamic Keyword)
@@ -181,7 +181,7 @@ namespace MVCProject.PL.Notes
 
         #region TempData
         //TempData : Send data from action(request) to action (request) 
-        //TempData : has his owen Dictionary
+        //TempData : has his Owen Dictionary
         #endregion
 
         #endregion
