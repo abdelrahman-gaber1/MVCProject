@@ -82,8 +82,8 @@ namespace MVCProject.PL
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //if you deploy your app in https and you receive request from http 
-            // this method will redirect it to https
+            //if you deploy your app in HTTPS and you receive request from HTTP 
+            // this method will redirect it to HTTPS
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

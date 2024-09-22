@@ -42,7 +42,7 @@ namespace MVCProject.PL.Controllers
                 var result = _employeeRepository.Add(employee);
                 if (result > 0)
                 {
-                    TempData["Message"] = "Employee Created Succefully";
+                    TempData["Message"] = "Employee Created Successfully";
                 }
                 else
                 {
