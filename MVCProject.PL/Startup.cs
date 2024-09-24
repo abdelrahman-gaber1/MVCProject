@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using MVCProject.BLL.Interfaces;
 using MVCProject.BLL.Repositories;
 using MVCProject.DAL.Data;
+using MVCProject.PL.Extensions;
+using MVCProject.PL.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,11 +64,10 @@ namespace MVCProject.PL
             //AddDbContext have overload take parameter on type action (delegate)
             //when i create DbContext i send connection string to option in constructor of appDbcontext
 
-            //  if any one need IDepartmentRepository CLR will create DepartmentRepository
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            //register of service of repository always scope 
-            //because if request have more than one operation he will create one object
+            ApplicationServicesExtensions.AddApplicationService(services); // static method
+            services.AddApplicationService(); //extension method
+            //he need object to learn him how to mapping
+            services.AddAutoMapper(M=>M.AddProfile(new mappingProfile()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,5 +23,10 @@ namespace MVCProject.DAL.Models
         //because this class is poco class we can't write any thing other property
         [Display(Name ="Date Of Creation")]
         public DateTime DateOfCreation { get; set; }
+
+        //navigation property (Many)
+        //this reference refer to null so we must initialize it
+        // i must represent relation many 
+        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
     }
 }
