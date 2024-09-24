@@ -13,5 +13,7 @@ namespace MVCProject.BLL.Interfaces
         // like detect employee by address
         IQueryable<Employee> GetEmployeeByAddress(string address);
 
+        IQueryable<Employee> GetEmployeeByName(string name);
+
     }
 }

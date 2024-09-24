@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MVCProject.DAL.Models;
 using System;
@@ -22,6 +23,7 @@ namespace MVCProject.DAL.Data.Configration
                 (Gender) => Gender.ToString(),
                 (Gender) => (Gender)Enum.Parse(typeof(Gender), Gender)
                 );
+            builder.Property(E => E.Name).IsRequired(true).HasMaxLength(50);
         }
     }
 }

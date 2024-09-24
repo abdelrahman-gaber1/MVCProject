@@ -1,5 +1,14 @@
-﻿@model Employee
-
+﻿@model EmployeeViewModel
+@* i need department repository in create and edit *@
+@inject IDepartmentRepository _deprtmentRepo
+@{
+    // SelectList take items (departments that i send using viewData)
+    // and take detected value and text
+    var departments = new SelectList(/* @ViewData["Departments"] as IEnumerable<Department> */
+                                     _deprtmentRepo.GetAll(),
+                                    nameof(Department.Id),nameof(Department.Name));
+                                    //     departmentId          department
+}
 <div>
     <label class="col-form-label" asp-for="Name"></label>
     <input type="text" asp-for="Name" class="form-control" />
@@ -48,4 +57,23 @@
     <label class="col-form-label" asp-for="HireDate"></label>
     <input asp-for="HireDate" class="form-control" />
 
+</div>
+<div class="form-group">
+    <label class="col-form-label" asp-for="Department"></label>
+    @* drop down list=>Select *@
+    @* asp-item take item that you want to render in select and display each one like foreach*@
+    @* asp-item take departments *@
+    @* asp-item take object of type select list so i must create one and send it to asp-item*@
+    <select class="form-control" asp-items="departments" asp-for="DepartmentId">
+        @* number of option equal to number of department *@
+        @* each option have value the value that stored in database*@
+        @* note we store DepartmentId of the department(value) *@
+        @* and display the name of department *@
+        @* value bind in asp-for departmentId  *@
+        @* text bind in asp-for department in label  *@
+        @* we must detect that in select list *@
+        @* <option></option> *@
+        @* value here is null as like as i didn't choose department *@
+        <option value="null">--Select Department--</option>
+    </select>
 </div>

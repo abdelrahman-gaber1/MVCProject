@@ -39,7 +39,21 @@ namespace MVCProject.BLL.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return _DbContext.Set<T>().AsNoTracking().ToList();
+            //we went when get data of employee get data of department
+            //egger loading is better here because it is relation one each employee has one department
+            //i didn't know type of T so if it Employee i went to include department
+            //this way is bad the best solution is to use 
+            //Design pattern specification design pattern :  help me to build dynamic query
+            if(typeof(T) == typeof(Employee))
+            {
+                //return type of this method is IEnumerable<T> so we must cast IEnumerable<Employee> to it
+                return (IEnumerable<T>) _DbContext.Employee.Include(E=>E.Department).AsNoTracking().ToList();
+            }
+            else
+            {
+                return _DbContext.Set<T>().AsNoTracking().ToList();
+            }
+
         }
 
         public T GetById(int id)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Buffers.Text;
 using System.Security.Cryptography.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MVCProject.PL.Notes
 {
@@ -189,9 +191,52 @@ namespace MVCProject.PL.Notes
 
         #region MVC07
 
-        //    20      +      55     +    30 +     18   +   45   = 170
+        #region EmployeeDepartmentRelation
+        // we work code first so we will do relation by code (navigation property)
+        // we want to access employee from department and department from employee (Two Dimension relation)
+        // FK name is the name of entity + PK (By Convention )
+        #endregion
+
+        #region SelectTagHelpers
+        // i want when user create employee choose the department
+        // we need input for department (create - edit )
+        #endregion
+
+        #region AddSingletonAddScopedAddTransient
+        //AddSingleton : object lifetime = Application lifetime
+        //service we need his lifetime is singleton : cashing service( Get Response - Cash Response ) one object
+        //Cashing : first get data form database then if you need this data again he search local first
+        //service we need his lifetime is singleton : Logging exception
+        //object we create remains while user open application (per user)
+        //we have design pattern called singleton prevent multiple object creation from class
+        //AddScoped    : object lifetime = Request lifetime
+        //service we need his lifetime is Scoped : Repository
+        //AddTransient : object lifetime = Operation lifetime
+        //service we need his lifetime is Transient : Mapping( Map from model to viewModel(class that work with view) or opposite)
+        //object for each operation (create - delete - update ) object per operation
+
+        //we need to collect all services and detect lifetime in extension method or static method and call it in ConfigureServices 
+        #endregion
+
+        #region Search
 
         #endregion
 
+        #region Mapping
+        //Model : Class Represent Table in Database
+        //ViewModel : Class That Rendered In View 
+        //Action Index take data from database as Model and send it to view
+        //That's Wrong Because May be Model Have some property we don't need to show in View
+        //And my be we Have some data in View we don't need in Model to Store it in Database
+        //So we need to convert from Model to ViewModel Before Take Index[HTTP GET]
+        //Or from ViewModel to Model Before Take Create [HTTP POST]
+        //all View will operate with View model not model
+        #endregion
+
+        #endregion
+
+        #region MVC08
+        //   42     +     20    +    20     +     9    +     20   +    35  =   145    
+        #endregion
     }
 }
