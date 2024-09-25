@@ -137,6 +137,7 @@ namespace MVCProject.PL.Controllers
             {
                 //here i add code that may be send exception
                 _unitOfWork.DepartmentRepository.Update(department);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             //Exception parent class for all exception
@@ -176,6 +177,7 @@ namespace MVCProject.PL.Controllers
             try
             {
                 _unitOfWork.DepartmentRepository.Delete(department);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
