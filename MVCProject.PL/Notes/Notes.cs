@@ -236,7 +236,27 @@ namespace MVCProject.PL.Notes
         #endregion
 
         #region MVC08
+
         //   42     +     20    +    20     +     9    +     20   +    35  =   145    
+
+        #region UnitOfWork
+        //In Business Logic Layer we have two Design pattern
+        //Generic Repository : insted of more than one ( module or repository )
+        //we must work with Generic Repository to prevent redenduncy in metohd and code
+        //Unit Of Work : contain all work related to database (Employee and Department Table)
+        //i need property to call Employee Table and one to Department Table + Save Change
+        //note dbcontext contain also all work related to database
+        //when we use repository we make save change inside each method that related to database
+        //we need all object related to dbcontext to change his state and use save change only once
+        //when we use repository we can't do it so 
+        //we will do it using unit of work
+        //first each method inside Generic Repository like add will not do save change only change state
+        //note return type of add will be void in Generic Repository and IGenericRepository
+        //we will do save change inside action in contraller after using methods of Repository (Add - delete)
+        //we won't do save change inside repository
+        #endregion
+
+
         #endregion
     }
 }

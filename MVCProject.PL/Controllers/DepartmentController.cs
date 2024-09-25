@@ -19,15 +19,19 @@ namespace MVCProject.PL.Controllers
         /// Composition : Required
         /// Aggregation : Optional [Null]
         /// </summary>
-        private readonly IDepartmentRepository _departmentRepository; //Null
+        //private readonly IDepartmentRepository _departmentRepository; //Null
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _env;
 
         // Department controller title cobbled on Department Repository
         // IWebHostEnvironment : i want this interface to check environment
-        public DepartmentController(IDepartmentRepository departmentRepository , IWebHostEnvironment env)
+        //i didn't need to inject form IDepartmentRepository because iunitofwork contain it and IEmployeeRepository
+        public DepartmentController(/*IDepartmentRepository departmentRepository*/ IUnitOfWork unitOfWork , IWebHostEnvironment env)
         {
+            _unitOfWork = unitOfWork;
             //_departmentRepository = new DepartmentRepository(new AppDbContext(new DbContextOptions()));
-            _departmentRepository = departmentRepository;
+            //_departmentRepository = departmentRepository;
+
             _env = env;
         }
         //BaseURL/Department/Index
@@ -41,7 +45,7 @@ namespace MVCProject.PL.Controllers
             //2.name of model : data that you want to send to view
             //3.name of view that you want to show 
             //4. model + view
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             return View(departments);
         }
         //when you click in create department he will open view that contain form
@@ -61,8 +65,10 @@ namespace MVCProject.PL.Controllers
             //Depend on the validation in department model is achieve this validation
             if (ModelState.IsValid)
             {
-              var result = _departmentRepository.Add(department);
-              if(result>0)
+                //var result = _departmentRepository.Add(department);
+                _unitOfWork.DepartmentRepository.Add(department);
+                var result = _unitOfWork.Complete();
+                if(result>0)
                 {
                     return RedirectToAction("Index");
                 }
@@ -82,7 +88,7 @@ namespace MVCProject.PL.Controllers
                 //wrong data
                 return BadRequest();
             }
-            var department = _departmentRepository.GetById(id.Value);
+            var department = _unitOfWork.DepartmentRepository.GetById(id.Value);
             if (department == null)
             {
                 //client side error 404
@@ -130,7 +136,7 @@ namespace MVCProject.PL.Controllers
             try
             {
                 //here i add code that may be send exception
-                _departmentRepository.Update(department);
+                _unitOfWork.DepartmentRepository.Update(department);
                 return RedirectToAction(nameof(Index));
             }
             //Exception parent class for all exception
@@ -169,7 +175,7 @@ namespace MVCProject.PL.Controllers
         {
             try
             {
-                _departmentRepository.Delete(department);
+                _unitOfWork.DepartmentRepository.Delete(department);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

@@ -10,12 +10,14 @@ namespace MVCProject.PL.Extensions
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
             // if any one need IDepartmentRepository CLR will create DepartmentRepository
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //register of service of repository always scope 
             //because if request have more than one operation he will create one object
             //after end of request the object became unreachable object
             //and remove it from heap when garbage collector work
+            //scoped as repository inside it
+            services.AddScoped<IUnitOfWork, UnitOfWork>();  
             return services;
         }
     }
