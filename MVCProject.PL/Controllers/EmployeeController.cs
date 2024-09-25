@@ -14,7 +14,8 @@ namespace MVCProject.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        //private readonly IEmployeeRepository _employeeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
         //private readonly IDepartmentRepository _departmentRepository;
@@ -24,9 +25,10 @@ namespace MVCProject.PL.Controllers
         // to solve this problem we want to inject inside the part we need it inside view of create and edit
 
         // To use auto mapper we need to inject object from auto mapper in constructor of employee then add this service in startup
-        public EmployeeController(IEmployeeRepository employeeRepository, IWebHostEnvironment env  /*IDepartmentRepository departmentRepository*/ , IMapper mapper)
+        public EmployeeController(/*IEmployeeRepository employeeRepository*/ IUnitOfWork unitOfWork, IWebHostEnvironment env  /*IDepartmentRepository departmentRepository*/ , IMapper mapper)
         {
-            _employeeRepository = employeeRepository;
+            //_employeeRepository = employeeRepository;
+            _unitOfWork = unitOfWork;
             _env = env;
             _mapper = mapper;
             //_departmentRepository = departmentRepository;
@@ -44,14 +46,14 @@ namespace MVCProject.PL.Controllers
             if (string.IsNullOrEmpty(searchInp))
             {
 
-                var employees = _employeeRepository.GetAll();
+                var employees = _unitOfWork.EmployeeRepository.GetAll();
                 var mappedEmp = _mapper.Map <IEnumerable<Employee>,IEnumerable< EmployeeViewModel>>(employees);
                 return View(mappedEmp);
 
             }
             else
             {
-                var employees = _employeeRepository.GetEmployeeByName(searchInp);
+                var employees = _unitOfWork.EmployeeRepository.GetEmployeeByName(searchInp);
                 var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
                 return View(mappedEmp);
             }
@@ -98,7 +100,15 @@ namespace MVCProject.PL.Controllers
                 var mappedEmp = _mapper.Map<EmployeeViewModel,Employee>(employeeVM);
                 //convert from EmployeeViewModel to Employee =>Data will convert employeeVM
                 //Note he Need to Know how to convert how mapping using Profile 
-                var result = _employeeRepository.Add(mappedEmp);
+                 _unitOfWork.EmployeeRepository.Add(mappedEmp); //state added
+                var result = _unitOfWork.Complete();
+                //_dbcontext.SaveChanges(); // I can't do it because i didn't have an object of AppDbContext
+                //controller connect with dbcontext undirectly using repository
+                //i want if i have action that do some operation like added and update and delete from db
+                //i want to do one save change after all this state change 
+                //the problem is i didn't have access to dbcontext here so
+                //we will add layer bettwen contraller and repository ( Unit Of Work )
+                // Unit Of Work contaon
                 if (result > 0)
                 {
                     TempData["Message"] = "Employee Created Successfully";
@@ -118,7 +128,7 @@ namespace MVCProject.PL.Controllers
             {
                 return BadRequest();
             }
-            var employee = _employeeRepository.GetById(id.Value);
+            var employee = _unitOfWork.EmployeeRepository.GetById(id.Value);
             var mappedEmp = _mapper.Map<Employee, EmployeeViewModel>(employee);
 
             //var department = _departmentRepository.GetAll();
@@ -152,7 +162,8 @@ namespace MVCProject.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                _employeeRepository.Update(mappedEmp);
+                _unitOfWork.EmployeeRepository.Update(mappedEmp);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -182,7 +193,8 @@ namespace MVCProject.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                _employeeRepository.Delete(mappedEmp);
+                _unitOfWork.EmployeeRepository.Delete(mappedEmp);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

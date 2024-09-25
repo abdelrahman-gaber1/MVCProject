@@ -39,11 +39,11 @@ namespace MVCProject.BLL.Interfaces
 
         // when you update row in SQL he send message like one row affected 
         // if return more than zero so the operation done
-        int Add(T item);
+        void Add(T item);
 
-        int Update(T item);
+        void Update(T item);
 
-        int Delete(T item);
+        void Delete(T item);
 
     }
 }

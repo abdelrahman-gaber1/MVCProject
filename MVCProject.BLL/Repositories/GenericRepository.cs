@@ -22,19 +22,19 @@ namespace MVCProject.BLL.Repositories
         {
             _DbContext = dbContext;
         }
-        public int Add(T item)
+        public void Add(T item)
         {
             //Set<T> to select Table we need 
             //because we didn't know the table (Type of T)
             _DbContext.Set<T>().Add(item); // change state to added 
             _DbContext.Add(item); // add is intelligent to detect table automatic
-            return _DbContext.SaveChanges(); // SQL script to add this department
+            //return _DbContext.SaveChanges(); // SQL script to add this department
         }
 
-        public int Delete(T item)
+        public void Delete(T item)
         {
             _DbContext.Set<T>().Remove(item); // State Deleted
-            return _DbContext.SaveChanges();
+            //return _DbContext.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
@@ -68,10 +68,10 @@ namespace MVCProject.BLL.Repositories
             return _DbContext.Find<T>(id);
         }
 
-        public int Update(T item)
+        public void Update(T item)
         {
             _DbContext.Set<T>().Update(item);
-            return _DbContext.SaveChanges();
+            //return _DbContext.SaveChanges();
         }
     }
 }
