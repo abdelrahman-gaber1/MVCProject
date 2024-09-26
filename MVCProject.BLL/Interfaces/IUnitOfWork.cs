@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 namespace MVCProject.BLL.Interfaces
 {
     // i want to connect to db using this unit
-    public interface IUnitOfWork
-    {
-        //i want property for employee repository that inside of him talk to dbcontext
+    public interface IUnitOfWork : IDisposable
+    { 
+        //i want property for employee repository (each table has it's repository) that inside of him talk to dbcontext
         public IEmployeeRepository EmployeeRepository { get; set; }
-        //i want property for department repository that inside of him talk to dbcontext
+        //i want property for department repository that inside of him talk to dbcontext  
         public IDepartmentRepository DepartmentRepository { get; set; }
         //property for save change i want to build method like saveChange function
         int Complete();
 
-        int Dispose();
     }
 }

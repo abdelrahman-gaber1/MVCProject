@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace MVCProject.BLL.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    //we must know clr that unit of work have dispose to excute it 
+    //to know him that he have this method we must implement spicific interface (IDisposable)  
+    //so we will make iunitofwork inherit form idiposable 
+    public class UnitOfWork : IUnitOfWork 
     {
         private readonly AppDbContext _dbContext;
 
@@ -17,11 +20,13 @@ namespace MVCProject.BLL.Repositories
         public UnitOfWork(AppDbContext dbContext)
         {
             //Injection level Become Execute in unit of work not Repository
+            //note in service when we added unit of work injection 
+            //we delete service for repository because we do it here 
             _dbContext = dbContext;
             EmployeeRepository = new EmployeeRepository(_dbContext);
             DepartmentRepository= new DepartmentRepository(_dbContext);
         }
-        // refernce of type IEmployeeRepository refer to null
+        // refernce of type IEmployeeRepository refer to  null
         public IEmployeeRepository EmployeeRepository { get; set; }
         //Automatic property Generate Backing Field attribute( hidden attribute ) i don't have access on it because i don't need it. 
         public IDepartmentRepository DepartmentRepository { get; set; }
@@ -30,10 +35,11 @@ namespace MVCProject.BLL.Repositories
         {
            return _dbContext.SaveChanges();
         }
-
-        public int Dispose()
+        //CLR after you create object of unit of work he see if he have dispose
+        //he will excute it after this object life time end
+        public void Dispose()
         {
-            throw new NotImplementedException();
+             _dbContext.Dispose();
         }
     }
 }
