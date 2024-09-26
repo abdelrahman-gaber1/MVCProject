@@ -101,14 +101,16 @@ namespace MVCProject.PL.Controllers
                 //convert from EmployeeViewModel to Employee =>Data will convert employeeVM
                 //Note he Need to Know how to convert how mapping using Profile 
                  _unitOfWork.EmployeeRepository.Add(mappedEmp); //state added
-                var result = _unitOfWork.Complete();
+                ///update(object)
+                ///delete(object)
+                var result = _unitOfWork.Complete(); //Save Change
                 //_dbcontext.SaveChanges(); // I can't do it because i didn't have an object of AppDbContext
                 //controller connect with dbcontext undirectly using repository
-                //i want if i have action that do some operation like added and update and delete from db
+                //i want if i have action that do some operatio n like added and update and delete from db
                 //i want to do one save change after all this state change 
                 //the problem is i didn't have access to dbcontext here so
                 //we will add layer bettwen contraller and repository ( Unit Of Work )
-                // Unit Of Work contaon
+                // Unit Of Work contain any thing related to db and i will acces dbcontect using it
                 if (result > 0)
                 {
                     TempData["Message"] = "Employee Created Successfully";
@@ -163,7 +165,7 @@ namespace MVCProject.PL.Controllers
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 _unitOfWork.EmployeeRepository.Update(mappedEmp);
-                _unitOfWork.Complete();
+                _unitOfWork.Complete(); 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

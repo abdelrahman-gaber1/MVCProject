@@ -1,11 +1,13 @@
 ﻿@model EmployeeViewModel
 @* i need department repository in create and edit *@
-@inject IDepartmentRepository _deprtmentRepo
+@* now i didn't IDepartmentRepository i will inject unit of work *@
+@* @inject IDepartmentRepository _deprtmentRepo *@
+@inject IUnitOfWork _unitOfWork
 @{
     // SelectList take items (departments that i send using viewData)
     // and take detected value and text
     var departments = new SelectList(/* @ViewData["Departments"] as IEnumerable<Department> */
-                                     _deprtmentRepo.GetAll(),
+                                     _unitOfWork.DepartmentRepository.GetAll(),
                                     nameof(Department.Id),nameof(Department.Name));
                                     //     departmentId          department
 }

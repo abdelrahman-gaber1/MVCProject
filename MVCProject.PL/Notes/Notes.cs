@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Buffers.Text;
 using System.Security.Cryptography.Xml;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MVCProject.PL.Notes
@@ -237,7 +238,7 @@ namespace MVCProject.PL.Notes
 
         #region MVC08
 
-        //   42     +     20    +    20     +     9    +     20   +    35  =   145    
+        //  20     +     9    +     20   +    35  =   145    
 
         #region UnitOfWork
         //In Business Logic Layer we have two Design pattern
@@ -253,10 +254,59 @@ namespace MVCProject.PL.Notes
         //first each method inside Generic Repository like add will not do save change only change state
         //note return type of add will be void in Generic Repository and IGenericRepository
         //we will do save change inside action in contraller after using methods of Repository (Add - delete)
-        //we won't do save change inside repository
+        //we won't do save change inside repository (per method)
+
+        //after doning add or other the connection with database still open desbite the object becaume unrechable 
+        //note somethings not under control of clr like connection with databse
+        //so we need to close this connection using method despose or using 
+        //make the object that need to open connection to close this connection (Unit of work)
+        //if you don't close connecction will still open and will cause traffic on network (requset on netork)
+        //he will close it using method disopse
+
         #endregion
 
+        #region DocumentSettings
+        //upload file delete file work with any document
+        //to dealing with document you have to approch 
+        //1.store it in database(array of bite) not perferd bad performance a lot of time to
+        //(convert form image to array of bits and do oppsite when call it)
+        //2.upload file in server and store only path in database
+        //when retrive it you will do it using this path
+        //module of document don't change form project to project and you need it on all project
+        //first we need to implement class for file 
+        //we need method for upload in server and return string path that will sotre in db
+        //this method take file will upload and folder will be store in it
+        //wwwroot is the local server for our project 
 
+        #region Upload file
+        //setting for UPLOAD file 
+        //1. Get Located Folder Path (path of folder that i will upload file in him)
+        //   we can't write path static we must write it dynamic according to server store in it
+        //   Dynamic path contain current directory before root + "wwwroot\\files" + foldername 
+        //2. Get File Name and Make it Unique 
+        //   uniqe to prevent override if i add image and i have image with same name 
+        //   so to keep both image each file must have uniqe name 
+        //   file.Name get file name with extention so we can use it to accept one type of file 
+        //   to make it uniqe use Guid to generate uniq id and add it to file name
+        //3. Get File ePath[Folder Path + FileName]
+        //4. Save File As Streams [File Path+ FileMode]
+        //   File Mode Can Be Create - Open - CreateNew - Truncate
+        //   Create : create new file if already exist it will overwritten it
+        //   CreateNew : create new file if already exist it will throw exception i can use it if i want to check if file uniqe or not 
+        //5. Return File Name
+        #endregion
+
+        #region Delete file
+        //this mthod take fileName that you want to delete and folder name 
+        //3. Get File Path[Current Directory + "wwwroot\\File+ Folder Path + FileName]
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region MVC09
+        //  80   +   38   +     6    +     27    +     11   +    17   +    29  +   3   +    13   +     18     +     7    +    26  +   18   =    80    +    213 
         #endregion
     }
 }
