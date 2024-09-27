@@ -237,9 +237,7 @@ namespace MVCProject.PL.Notes
 
         #endregion
 
-        #region MVC08
-
-        //    35  =   145    
+        #region MVC08  
 
         #region UnitOfWork
         //In Business Logic Layer we have two Design pattern
@@ -351,7 +349,20 @@ namespace MVCProject.PL.Notes
         #endregion
 
         #region MicrosoftIdentityPackage
-
+        //when begin any Module First we ask which layer we will implement
+        //Security Module => Data Access Layer - Business Logic Layer - Presentation Layer
+        //First we Install Security Module Package we Install it in Data Access Layer
+        //we need table for user and role and relation that already in this identity
+        //only what i need to add this table in database (DBSET)
+        //NormalizedUserName : user name with capital letters we use it to search
+        //NormalizedEmail : Email name with capital letters we use it to search
+        //PasswordHash Attribute : Take Password and encrypt it then save hash in database when we need it there are method to decrypt it
+        
+        //in this identity we don't have only to table we have seven table each of him has default shape
+        //identityDbContext have this table user - role - relation - Claim and 3 other we didn't need to dbset all this table we will inherit them from identityDbContext and there dbset
+        //identityDbContext have four shape each type modify type of classes like user - role 
+        //you can detect shape of class user and other classes using identityDbContext and send to him class user you are build it instead of use default class
+        //go to identityDbContext to know all shape of this class
         #endregion
 
         #endregion
