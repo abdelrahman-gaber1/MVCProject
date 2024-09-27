@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MVCProject.PL.Helpers
 {
-    public class DoucmentSettings
+    public class DocumentSettings
     {
         public static string UploadFile(IFormFile file , string folderName)
         {
@@ -13,7 +13,7 @@ namespace MVCProject.PL.Helpers
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files\\", folderName);
             string filename = $"{Guid.NewGuid()}{file.Name}";
             string filePath = Path.Combine(folderPath, filename);
-            var fileStreams = new FileStream(filePath, FileMode.Create);
+            using var fileStreams = new FileStream(filePath, FileMode.Create);
             file.CopyTo(fileStreams);
             return filename ;
             

@@ -9,7 +9,13 @@
 
 <form asp-action="Delete" asp-route-id="@Model.Id">
     <partial name="PartialView/DetailsDeleteEmployeePartial"></partial>
+    @* we need to add value of imageName from form *@
+    @* there is no input so he didn't take value to add to imageName *@
+    @* parameter search for input with his name to bind on him*@
+    @* we didn't have input called imageName *@
+    @* so we need to added input in delete to bind on him and make it hidden *@
 
+    <input asp-for="ImageName" type="hidden"/>
     <input type="submit" value="Delete" class="btn btn-danger mt-5" />
     <a asp-action="Index" class="btn btn-light mt-5">Cancel</a>
 

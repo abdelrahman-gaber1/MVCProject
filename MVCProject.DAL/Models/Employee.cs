@@ -62,5 +62,7 @@ namespace MVCProject.DAL.Models
         //null-able integer : action with delete for this column is no action (can't delete it)
         //Required integer : action with delete for this column is Cascade (delete it and it's employee)
         public int? DepartmentId { get; set; } //FK Column
+
+        public string ImageName {  get; set; }  
     }
 }

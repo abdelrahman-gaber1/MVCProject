@@ -60,6 +60,8 @@
     <input asp-for="HireDate" class="form-control" />
 
 </div>
+
+
 <div class="form-group">
     <label class="col-form-label" asp-for="Department"></label>
     @* drop down list=>Select *@
@@ -78,4 +80,12 @@
         @* value here is null as like as i didn't choose department *@
         <option value="null">--Select Department--</option>
     </select>
+</div>
+
+
+<div>
+    <label class="col-form-label" asp-for="Image"></label>
+    @* type of input will take it form type of image in view model *@
+    <input asp-for="Image" class="form-control-file" />
+
 </div>

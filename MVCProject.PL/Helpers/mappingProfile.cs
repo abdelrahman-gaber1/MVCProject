@@ -14,6 +14,9 @@ namespace MVCProject.PL.Helpers
             //                                                 destination(model)         source(ViewModel)
             //if the name of property in model different from his name in view model he can't convert
             //so i must learn him how to convert it 
+
+            //note if the name of property in employee is ImageName and in EmployeeViewModel Image he can't map automatically
+            //will make exception so we must add property in EmployeeViewModel called ImageName so he can map
         }
     }
 }

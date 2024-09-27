@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Buffers.Text;
 using System.Security.Cryptography.Xml;
+using System.Security.Principal;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -238,12 +239,12 @@ namespace MVCProject.PL.Notes
 
         #region MVC08
 
-        //  20     +     9    +     20   +    35  =   145    
+        //    35  =   145    
 
         #region UnitOfWork
         //In Business Logic Layer we have two Design pattern
-        //Generic Repository : insted of more than one ( module or repository )
-        //we must work with Generic Repository to prevent redenduncy in metohd and code
+        //Generic Repository : instead of more than one ( module or repository )
+        //we must work with Generic Repository to prevent redundancy in method and code
         //Unit Of Work : contain all work related to database (Employee and Department Table)
         //i need property to call Employee Table and one to Department Table + Save Change
         //note dbcontext contain also all work related to database
@@ -253,41 +254,43 @@ namespace MVCProject.PL.Notes
         //we will do it using unit of work
         //first each method inside Generic Repository like add will not do save change only change state
         //note return type of add will be void in Generic Repository and IGenericRepository
-        //we will do save change inside action in contraller after using methods of Repository (Add - delete)
+        //we will do save change inside action in controller after using methods of Repository (Add - delete)
         //we won't do save change inside repository (per method)
 
-        //after doning add or other the connection with database still open desbite the object becaume unrechable 
-        //note somethings not under control of clr like connection with databse
-        //so we need to close this connection using method despose or using 
+        //after doing add or other the connection with database still open despite the object became unreachable 
+        //note somethings not under control of CLR like connection with database
+        //so we need to close this connection using method dispose or using 
         //make the object that need to open connection to close this connection (Unit of work)
-        //if you don't close connecction will still open and will cause traffic on network (requset on netork)
-        //he will close it using method disopse
+        //if you don't close connection will still open and will cause traffic on network (request on network)
+        //he will close it using method dispose
 
         #endregion
 
         #region DocumentSettings
         //upload file delete file work with any document
-        //to dealing with document you have to approch 
-        //1.store it in database(array of bite) not perferd bad performance a lot of time to
-        //(convert form image to array of bits and do oppsite when call it)
+        //to dealing with document you have to approach 
+        //1.store it in database(array of bite) not preferred bad performance a lot of time to
+        //(convert form image to array of bits and do opposite when call it)
         //2.upload file in server and store only path in database
-        //when retrive it you will do it using this path
+        //when retrieve it you will do it using this path
         //module of document don't change form project to project and you need it on all project
         //first we need to implement class for file 
-        //we need method for upload in server and return string path that will sotre in db
+        //we need method for upload in server and return string path that will store in db
         //this method take file will upload and folder will be store in it
         //wwwroot is the local server for our project 
+        //dealing with image to under control of CLR
+        //so if you open stream you must close him
 
         #region Upload file
         //setting for UPLOAD file 
         //1. Get Located Folder Path (path of folder that i will upload file in him)
         //   we can't write path static we must write it dynamic according to server store in it
-        //   Dynamic path contain current directory before root + "wwwroot\\files" + foldername 
+        //   Dynamic path contain current directory before root + "wwwroot\\files" + folder name 
         //2. Get File Name and Make it Unique 
-        //   uniqe to prevent override if i add image and i have image with same name 
-        //   so to keep both image each file must have uniqe name 
-        //   file.Name get file name with extention so we can use it to accept one type of file 
-        //   to make it uniqe use Guid to generate uniq id and add it to file name
+        //   unique to prevent override if i add image and i have image with same name 
+        //   so to keep both image each file must have unique name 
+        //   file.Name get file name with extension so we can use it to accept one type of file 
+        //   to make it unique use Guid to generate unique id and add it to file name
         //3. Get File ePath[Folder Path + FileName]
         //4. Save File As Streams [File Path+ FileMode]
         //   File Mode Can Be Create - Open - CreateNew - Truncate
@@ -297,16 +300,64 @@ namespace MVCProject.PL.Notes
         #endregion
 
         #region Delete file
-        //this mthod take fileName that you want to delete and folder name 
+        //this method take fileName that you want to delete and folder name 
         //3. Get File Path[Current Directory + "wwwroot\\File+ Folder Path + FileName]
         #endregion
+
+        #endregion
+
+        #region UploadImage
+        //we need each employee can upload image for him
+        //property on model for image and property in view Model for it
+        //we need input in view to upload image in this input we upload image 
+        //data type of image in view model will be IFormFile to allow upload image
+        //we Can't do it string because we can't upload image in this case
+        //we need to show image in details
+        #endregion
+
+        #region DeleteImage
+        //i need when delete employee Delete his image
+        //note image name come from delete with null value despite he have image
+        //because we didn't add imageName value from imageName from from 
+        //when you get to delete the EmployeeViewModel take his value from form
+        //so we need to added input in delete and make it hidden
+        #endregion
+
+        #region SecurityModule
+
+        //Security Module: Authentication +  Authorization 
+        //We have Important Step Before Authentication +  Authorization 
+        //Step 0 - Identification (Registration : Make Account)  =>  Have a Account at Web App To LogIn
+        //Step 1 - Authentication : => 1. Who Are You? Login ( UserName(email), Password) => [credentials]
+        //                          => 2. Where You Come?    (Type of Authentication)
+        //                                  - Local          : Login ( UserName(email), Password)
+        //                                  - Active Directory : Windows service ( Any one User In this Service can LogIn => Windows Authentication)
+        //                                  //we use it when Deploy project in each machine so limited people can use this project only the project deploy in him
+        //                                  - External Server "External Login (Facebook, Google and etc..)" 
+        //                                  - Federated Server(Souq -> Amazon) : You can logIn to Amazon using Souq (Data Integration Transfer Data From Souq To Amazon)
+        //Authorization  : => What Can You Do in WebSite? Roles (Each Group Of Users have a Specified Role) ( Admin - User ) You Have Access In What
+        //Authorization  : => Roles Can Be For Group Of Users Or Specific User
+        //Relation Between User and Role is Many to Many Always Or One To Many
+
+        //We Didn't implement Security Module from Scratch 
+        //Microsoft Build Identity Package That contain some build in service You only use it
+        //Microsoft Identity Package Have 3 Main Service Each of them Have Some Function
+        //UserManager -> Manage User (Identification)
+        //[5 Functions] (Create User (Sign Up)- Update User- Delete User- Read User Data - Confirm Account ) 
+        //SignInManager -> Authentication   
+        //[7 Functions] (Sign In - Sign Out - IsSigned - Reset Password - Two Facto Authentication - OTP Authentication - External Login)
+        //RoleManager -> Manage Roles (Create Role - Update Role - Delete Role )
+
+        #endregion
+
+        #region MicrosoftIdentityPackage
 
         #endregion
 
         #endregion
 
         #region MVC09
-        //  80   +   38   +     6    +     27    +     11   +    17   +    29  +   3   +    13   +     18     +     7    +    26  +   18   =    80    +    213 
+        //  80   +   38   +     6    +     27    +     11   +    17   +    29  +   3   +    13   +     18     +     7    +     26 +   18   =    80    +    213 
         #endregion
     }
 }
