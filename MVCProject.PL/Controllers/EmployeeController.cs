@@ -5,10 +5,12 @@ using Microsoft.Extensions.Hosting;
 using MVCProject.BLL.Interfaces;
 using MVCProject.BLL.Repositories;
 using MVCProject.DAL.Models;
+using MVCProject.PL.Helpers;
 using MVCProject.PL.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 
 namespace MVCProject.PL.Controllers
 {
@@ -96,6 +98,10 @@ namespace MVCProject.PL.Controllers
                 //    HireDate = employeeVM.HireDate,
                 //};
 
+                //we need before doing map to upload image and return image name and store it in ImageName to map it to ImageName in Employee Model
+                //Note imageName come from form with null value 
+                employeeVM.ImageName=DocumentSettings.UploadFile(employeeVM.Image, "Images");
+
                 //Auto Mapper
                 var mappedEmp = _mapper.Map<EmployeeViewModel,Employee>(employeeVM);
                 //convert from EmployeeViewModel to Employee =>Data will convert employeeVM
@@ -105,12 +111,12 @@ namespace MVCProject.PL.Controllers
                 ///delete(object)
                 var result = _unitOfWork.Complete(); //Save Change
                 //_dbcontext.SaveChanges(); // I can't do it because i didn't have an object of AppDbContext
-                //controller connect with dbcontext undirectly using repository
-                //i want if i have action that do some operatio n like added and update and delete from db
+                //controller connect with dbcontext indirectly using repository
+                //i want if i have action that do some operation n like added and update and delete from db
                 //i want to do one save change after all this state change 
                 //the problem is i didn't have access to dbcontext here so
-                //we will add layer bettwen contraller and repository ( Unit Of Work )
-                // Unit Of Work contain any thing related to db and i will acces dbcontect using it
+                //we will add layer between controller and repository ( Unit Of Work )
+                // Unit Of Work contain any thing related to db and i will access dbcontect using it
                 if (result > 0)
                 {
                     TempData["Message"] = "Employee Created Successfully";
@@ -163,6 +169,7 @@ namespace MVCProject.PL.Controllers
             }
             try
             {
+                employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "Images");
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 _unitOfWork.EmployeeRepository.Update(mappedEmp);
                 _unitOfWork.Complete(); 
@@ -197,6 +204,8 @@ namespace MVCProject.PL.Controllers
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 _unitOfWork.EmployeeRepository.Delete(mappedEmp);
                 _unitOfWork.Complete();
+                //we need to delete image from server
+                DocumentSettings.DeleteFile(employeeVM.ImageName , "Images");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
