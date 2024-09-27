@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MVCProject.DAL.Data.Configration;
 using MVCProject.DAL.Models;
 using System;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVCProject.DAL.Data
 {
-    public class AppDbContext :DbContext
+    public class AppDbContext : IdentityDbContext
     {
         //Create object from AppDbContext depend on Create object from DbContextOptions 
         // ask CLR for creating object from DbContextOptions
@@ -30,11 +32,24 @@ namespace MVCProject.DAL.Data
         //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new DepartmentConfigration());
-            modelBuilder.ApplyConfiguration(new EmployeeConfigration());
+            //modelBuilder.ApplyConfiguration(new DepartmentConfigration());
+            //modelBuilder.ApplyConfiguration(new EmployeeConfigration());
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
+            //OnModelCreating only for apply fluent api
+            //i must add this base because the table i inherited from identityDbContext that have table that has fluent api
+            //this fluent api write in onModelCreating of base so we must run bast to run this fluent api
+            base.OnModelCreating(modelBuilder);
+            //TO CHANGE NAME OF ANY TABLE IN identityDbContext
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUser>().ToTable("Users");
         }
         public DbSet<Department> Department { get; set; }
         public DbSet<Employee> Employee { get; set; }
+
+        ////IdentityUser is Generic and This T detect the type of ID Default is String and generate it with GUID
+        //public IdentityUser<int> Users { get; set; }
+
+        //IdentityRole is Generic and This T detect the type of ID Default is String and generate it with GUID
+        //public IdentityRole Roles { get; set; }
     }
 }
